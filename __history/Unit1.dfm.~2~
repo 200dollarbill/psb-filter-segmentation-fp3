@@ -1,0 +1,1226 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 910
+  ClientWidth = 1600
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  OnCreate = FormCreate
+  TextHeight = 15
+  object PageControl1: TPageControl
+    Left = 8
+    Top = 8
+    Width = 1561
+    Height = 894
+    ActivePage = TabSheet2
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'ECG Wave detection w/ DWT Filter Bank'
+      object GroupBox1: TGroupBox
+        Left = 3
+        Top = 0
+        Width = 518
+        Height = 65
+        Caption = 'Processes'
+        TabOrder = 0
+        object W_LoadDataButton: TButton
+          Left = 8
+          Top = 25
+          Width = 121
+          Height = 25
+          Caption = 'Load Data'
+          TabOrder = 0
+          OnClick = W_LoadDataButtonClick
+        end
+        object W_ApplyDWTButton: TButton
+          Left = 135
+          Top = 25
+          Width = 121
+          Height = 25
+          Caption = 'Apply DWT'
+          TabOrder = 1
+          OnClick = W_ApplyDWTButtonClick
+        end
+        object W_SegmentButton: TButton
+          Left = 262
+          Top = 25
+          Width = 121
+          Height = 25
+          Caption = 'Segment'
+          TabOrder = 2
+          OnClick = W_SegmentButtonClick
+        end
+        object W_ClearButton: TButton
+          Left = 389
+          Top = 25
+          Width = 121
+          Height = 25
+          Caption = 'Clear'
+          TabOrder = 3
+          OnClick = W_ClearButtonClick
+        end
+      end
+      object GroupBox2: TGroupBox
+        Left = 527
+        Top = 0
+        Width = 964
+        Height = 65
+        Caption = 'Results'
+        TabOrder = 1
+        object HeartRateLabel: TLabel
+          Left = 36
+          Top = 21
+          Width = 55
+          Height = 15
+          Caption = 'Heart Rate'
+        end
+        object PRIntervalLabel: TLabel
+          Left = 232
+          Top = 21
+          Width = 56
+          Height = 15
+          Caption = 'PR Interval'
+        end
+        object QTIntervalLabel: TLabel
+          Left = 232
+          Top = 42
+          Width = 57
+          Height = 15
+          Caption = 'QT Interval'
+        end
+        object QRSdLabel: TLabel
+          Left = 36
+          Top = 42
+          Width = 71
+          Height = 15
+          Caption = 'QRS Duration'
+        end
+        object HeartRateValue: TLabel
+          Left = 124
+          Top = 21
+          Width = 5
+          Height = 15
+          Caption = '-'
+        end
+        object QRSdValue: TLabel
+          Left = 124
+          Top = 42
+          Width = 5
+          Height = 15
+          Caption = '-'
+        end
+        object PTIntervalValue: TLabel
+          Left = 320
+          Top = 21
+          Width = 5
+          Height = 15
+          Caption = '-'
+        end
+        object QTIntervalValue: TLabel
+          Left = 320
+          Top = 42
+          Width = 5
+          Height = 15
+          Caption = '-'
+        end
+        object STIntervalLabel: TLabel
+          Left = 476
+          Top = 21
+          Width = 55
+          Height = 15
+          Caption = 'ST Interval'
+        end
+        object STIntervalValue: TLabel
+          Left = 564
+          Top = 21
+          Width = 5
+          Height = 15
+          Caption = '-'
+        end
+      end
+      object GroupBox3: TGroupBox
+        Left = 3
+        Top = 71
+        Width = 1491
+        Height = 751
+        Caption = 'DWT Scales'
+        Color = clWhite
+        ParentBackground = False
+        ParentColor = False
+        TabOrder = 2
+        object Chart1S: TChart
+          Left = 8
+          Top = 20
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 1')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 0
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object Scale1LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart3S: TChart
+          Left = 8
+          Top = 425
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 3')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 1
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object Scale3LS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = 16744576
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart2S: TChart
+          Left = 364
+          Top = 20
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 2')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 2
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 4
+          object Scale2LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart4S: TChart
+          Left = 8
+          Top = 155
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 4')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 3
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 1
+          object Scale4LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart5S: TChart
+          Left = 364
+          Top = 155
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 5')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 4
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 11
+          object Scale5LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart6S: TChart
+          Left = 364
+          Top = 290
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 6')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 5
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object Scale6LS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = 8388863
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart7S: TChart
+          Left = 8
+          Top = 290
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 7')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 6
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 18
+          object Scale7LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart8S: TChart
+          Left = 364
+          Top = 425
+          Width = 350
+          Height = 129
+          Legend.Visible = False
+          Title.Text.Strings = (
+            'Scale 8')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 7
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object Scale8LS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object ChartSI: TChart
+          Left = 732
+          Top = 20
+          Width = 756
+          Height = 359
+          Title.Text.Strings = (
+            'ECG Signal Input')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 8
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object InputLS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series1: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series2: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series3: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series4: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series5: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series6: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series7: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object Series8: TLineSeries
+            HoverElement = [heCurrent]
+            Active = False
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object ChartSO: TChart
+          Left = 732
+          Top = 385
+          Width = 709
+          Height = 359
+          Title.Text.Strings = (
+            'Segmented Output')
+          Shadow.Visible = False
+          View3D = False
+          BevelOuter = bvNone
+          Color = clWhite
+          TabOrder = 9
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 17
+          object OutLS: TLineSeries
+            HoverElement = [heCurrent]
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object PPS: TPointSeries
+            HoverElement = [heCurrent]
+            Title = 'P'
+            ClickableLine = False
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object QPS: TPointSeries
+            HoverElement = [heCurrent]
+            Title = 'Q'
+            ClickableLine = False
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object RPS: TPointSeries
+            HoverElement = [heCurrent]
+            Title = 'R'
+            ClickableLine = False
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object TPS: TPointSeries
+            HoverElement = [heCurrent]
+            Title = 'T'
+            ClickableLine = False
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object SPS: TPointSeries
+            HoverElement = [heCurrent]
+            Title = 'S'
+            ClickableLine = False
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Control: TGroupBox
+          Left = 24
+          Top = 551
+          Width = 569
+          Height = 98
+          Caption = 'Control'
+          TabOrder = 10
+          object VScale1: TButton
+            Left = 19
+            Top = 24
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 1'
+            TabOrder = 0
+            OnClick = VScale1Click
+          end
+          object VScale2: TButton
+            Left = 154
+            Top = 24
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 2'
+            TabOrder = 1
+            OnClick = VScale2Click
+          end
+          object VScale3: TButton
+            Left = 289
+            Top = 25
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 3'
+            TabOrder = 2
+            OnClick = VScale3Click
+          end
+          object VScale4: TButton
+            Left = 424
+            Top = 25
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 4'
+            TabOrder = 3
+            OnClick = VScale4Click
+          end
+          object VScale5: TButton
+            Left = 19
+            Top = 55
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 5'
+            TabOrder = 4
+            OnClick = VScale5Click
+          end
+          object VScale6: TButton
+            Left = 154
+            Top = 55
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 6'
+            TabOrder = 5
+            OnClick = VScale6Click
+          end
+          object VScale7: TButton
+            Left = 289
+            Top = 55
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 7'
+            TabOrder = 6
+            OnClick = VScale7Click
+          end
+          object VScale8: TButton
+            Left = 424
+            Top = 56
+            Width = 129
+            Height = 25
+            Caption = 'View Scale 8'
+            TabOrder = 7
+            OnClick = VScale8Click
+          end
+        end
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Digital Filter Design for Gait Analysis'
+      ImageIndex = 1
+      object GroupBox4: TGroupBox
+        Left = 3
+        Top = 0
+        Width = 1542
+        Height = 49
+        Caption = 'GroupBox4'
+        TabOrder = 0
+        object F_LoadData: TButton
+          Left = 16
+          Top = 16
+          Width = 129
+          Height = 25
+          Caption = 'Load Data'
+          TabOrder = 0
+          OnClick = F_LoadDataClick
+        end
+        object F_ApplyZeroFilteringButton: TButton
+          Left = 286
+          Top = 16
+          Width = 129
+          Height = 25
+          Caption = 'Apply Zero Filtering'
+          TabOrder = 1
+          OnClick = F_ApplyZeroFilteringButtonClick
+        end
+        object F_FFTRawSignal: TButton
+          Left = 151
+          Top = 16
+          Width = 129
+          Height = 25
+          Caption = 'FFT Signal'
+          TabOrder = 2
+          OnClick = F_FFTRawSignalClick
+        end
+        object Button9: TButton
+          Left = 421
+          Top = 16
+          Width = 293
+          Height = 25
+          Caption = 'Show Filtered vs Input Toe Data on Frequency Domain'
+          TabOrder = 3
+          OnClick = Button9Click
+        end
+      end
+      object GroupBox5: TGroupBox
+        Left = 8
+        Top = 55
+        Width = 1542
+        Height = 806
+        Caption = 'Plots'
+        TabOrder = 1
+        object Chart1: TChart
+          Left = 15
+          Top = 280
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Force Sensing Resistor (FSR)')
+          View3D = False
+          TabOrder = 0
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_FSRHeelLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = 8388863
+            Title = 'Heel FSR'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_FSRToeLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = 16711808
+            Title = 'Toe FSR'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart2: TChart
+          Left = 1143
+          Top = 24
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Heel')
+          View3D = False
+          TabOrder = 1
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_HeelLS: TLineSeries
+            HoverElement = [heCurrent]
+            Title = 'Input'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_HeelFilteredLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clRed
+            Title = 'Filtered'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object F_FilteredToeLS: TChart
+          Left = 1143
+          Top = 280
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Toe')
+          View3D = False
+          TabOrder = 2
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_ToeLS: TLineSeries
+            HoverElement = [heCurrent]
+            Title = 'Input'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_ToeFilteredLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clRed
+            Title = 'Filtered'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart4: TChart
+          Left = 391
+          Top = 280
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Hip')
+          View3D = False
+          TabOrder = 3
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_HipLS: TLineSeries
+            HoverElement = [heCurrent]
+            Title = 'Input'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_HipFilteredLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clRed
+            Title = 'Filtered'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart5: TChart
+          Left = 767
+          Top = 24
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Knee')
+          View3D = False
+          TabOrder = 4
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_KneeLS: TLineSeries
+            HoverElement = [heCurrent]
+            Title = 'Input'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_KneeFilteredLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clRed
+            Title = 'Filtered'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart6: TChart
+          Left = 391
+          Top = 24
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Joint Angle (JA)')
+          View3D = False
+          TabOrder = 5
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_AnkleJAFS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clFuchsia
+            Title = 'Ankle JA'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_HipJALS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clBlue
+            Title = 'Hip JA'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_KneeJALS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clPurple
+            Title = 'Knee JA'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object Chart7: TChart
+          Left = 767
+          Top = 280
+          Width = 370
+          Height = 250
+          Legend.Alignment = laTop
+          Legend.CheckBoxes = True
+          Title.Text.Strings = (
+            'Ankle')
+          View3D = False
+          TabOrder = 6
+          DefaultCanvas = 'TGDIPlusCanvas'
+          ColorPaletteIndex = 13
+          object F_AnkleLS: TLineSeries
+            HoverElement = [heCurrent]
+            Title = 'Input'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+          object F_AnkleFilteredLS: TLineSeries
+            HoverElement = [heCurrent]
+            SeriesColor = clRed
+            Title = 'Filtered'
+            Brush.BackColor = clDefault
+            Pointer.InflateMargins = True
+            Pointer.Style = psRectangle
+            XValues.Name = 'X'
+            XValues.Order = loAscending
+            YValues.Name = 'Y'
+            YValues.Order = loNone
+          end
+        end
+        object GroupBox6: TGroupBox
+          Left = 3
+          Top = 528
+          Width = 1536
+          Height = 283
+          Caption = 'Frequency Domain'
+          TabOrder = 7
+          object Chart8: TChart
+            Left = 12
+            Top = 22
+            Width = 750
+            Height = 250
+            Legend.Alignment = laTop
+            Legend.CheckBoxes = True
+            Title.Text.Strings = (
+              'TChart')
+            View3D = False
+            TabOrder = 0
+            DefaultCanvas = 'TGDIPlusCanvas'
+            ColorPaletteIndex = 13
+            object F_FFTAnkle1LS: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Ankle +'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTHip1LS: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Hip +'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTKnee1LS: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Knee +'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTHeel1LS: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Heel +'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTToe1LS: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Toe +'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTToe2LS: TLineSeries
+              HoverElement = [heCurrent]
+              Active = False
+              Title = 'Toe -'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTHeel2LS: TLineSeries
+              HoverElement = [heCurrent]
+              Active = False
+              Title = 'Heel -'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTKnee2LS: TLineSeries
+              HoverElement = [heCurrent]
+              Active = False
+              Title = 'Knee -'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTHip2LS: TLineSeries
+              HoverElement = [heCurrent]
+              Active = False
+              Title = 'Hip -'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTAnkle2LS: TLineSeries
+              HoverElement = [heCurrent]
+              Active = False
+              Title = 'Ankle -'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+          end
+          object Chart9: TChart
+            Left = 768
+            Top = 22
+            Width = 378
+            Height = 250
+            Legend.Alignment = laTop
+            Legend.CheckBoxes = True
+            Title.Text.Strings = (
+              'TChart')
+            View3D = False
+            TabOrder = 1
+            DefaultCanvas = 'TGDIPlusCanvas'
+            ColorPaletteIndex = 13
+            object F_FFTInputHeel: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Input Heel FSR Magnitudes'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTFilteredHeel: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Filtered Heel FSR Magnitudes'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+          end
+          object Chart3: TChart
+            Left = 1152
+            Top = 22
+            Width = 373
+            Height = 250
+            Legend.Alignment = laTop
+            Legend.CheckBoxes = True
+            Title.Text.Strings = (
+              'TChart')
+            View3D = False
+            TabOrder = 2
+            DefaultCanvas = 'TGDIPlusCanvas'
+            ColorPaletteIndex = 13
+            object F_FFTFilteredToe: TLineSeries
+              HoverElement = [heCurrent]
+              Title = 'Filtered Toe FSR Magnitudes'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+            object F_FFTInputToe: TLineSeries
+              HoverElement = [heCurrent]
+              Marks.Callout.Length = 20
+              Title = 'Input Toe FSR Magnitudes'
+              Brush.BackColor = clDefault
+              Pointer.InflateMargins = True
+              Pointer.Style = psRectangle
+              XValues.Name = 'X'
+              XValues.Order = loAscending
+              YValues.Name = 'Y'
+              YValues.Order = loNone
+            end
+          end
+        end
+        object GroupBox7: TGroupBox
+          Left = 3
+          Top = 16
+          Width = 382
+          Height = 258
+          Caption = 'Controls'
+          TabOrder = 8
+          object Label1: TLabel
+            Left = 12
+            Top = 27
+            Width = 92
+            Height = 15
+            Caption = 'Cutoff Frequency'
+          end
+          object Label2: TLabel
+            Left = 12
+            Top = 88
+            Width = 5
+            Height = 15
+            Caption = '-'
+          end
+          object Label3: TLabel
+            Left = 12
+            Top = 109
+            Width = 5
+            Height = 15
+            Caption = '-'
+          end
+          object FCEdit: TEdit
+            Left = 12
+            Top = 48
+            Width = 121
+            Height = 23
+            TabOrder = 0
+            Text = '50'
+          end
+        end
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 1563
+    Top = 114
+  end
+  object OpenDialog2: TOpenDialog
+    Left = 1567
+    Top = 154
+  end
+end

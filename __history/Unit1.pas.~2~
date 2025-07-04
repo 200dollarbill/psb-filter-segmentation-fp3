@@ -1,0 +1,1397 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
+  VclTee.TeeGDIPlus, VCLTee.TeEngine, VCLTee.Series, Vcl.ExtCtrls,
+  VCLTee.TeeProcs, VCLTee.Chart, System.Math;
+
+type
+  TForm1 = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    GroupBox1: TGroupBox;
+    W_LoadDataButton: TButton;
+    W_ApplyDWTButton: TButton;
+    W_SegmentButton: TButton;
+    W_ClearButton: TButton;
+    GroupBox2: TGroupBox;
+    HeartRateLabel: TLabel;
+    PRIntervalLabel: TLabel;
+    QTIntervalLabel: TLabel;
+    QRSdLabel: TLabel;
+
+    GroupBox3: TGroupBox;
+
+
+    Chart1S: TChart;
+    Chart3S: TChart;
+    Chart2S: TChart;
+    Chart4S: TChart;
+    Chart5S: TChart;
+    Chart6S: TChart;
+    Chart7S: TChart;
+    Chart8S: TChart;
+
+    ChartSI: TChart;
+    ChartSO: TChart;
+
+    HeartRateValue: TLabel;
+    QRSdValue: TLabel;
+    PTIntervalValue: TLabel;
+    QTIntervalValue: TLabel;
+
+    InputLS: TLineSeries;
+
+    Scale1LS: TLineSeries;
+    Scale3LS: TLineSeries;
+    Scale6LS: TLineSeries;
+    Scale8LS: TLineSeries;
+
+    OutLS: TLineSeries;
+
+    PPS: TPointSeries;
+    QPS: TPointSeries;
+    RPS: TPointSeries;
+    TPS: TPointSeries;
+    SPS: TPointSeries;
+    OpenDialog1: TOpenDialog;
+    Series1: TLineSeries;
+    Series2: TLineSeries;
+    Series3: TLineSeries;
+    Series4: TLineSeries;
+    Series5: TLineSeries;
+    Series6: TLineSeries;
+    Series7: TLineSeries;
+    Series8: TLineSeries;
+    VScale1: TButton;
+    VScale2: TButton;
+    VScale3: TButton;
+    VScale4: TButton;
+    VScale5: TButton;
+    VScale6: TButton;
+    VScale7: TButton;
+    VScale8: TButton;
+    Control: TGroupBox;
+    Scale4LS: TLineSeries;
+    Scale2LS: TLineSeries;
+    Scale5LS: TLineSeries;
+    Scale7LS: TLineSeries;
+    STIntervalLabel: TLabel;
+    STIntervalValue: TLabel;
+    GroupBox4: TGroupBox;
+
+    // Gait filter design
+    F_LoadData: TButton;
+    F_ApplyZeroFilteringButton: TButton;
+    F_FFTRawSignal: TButton;
+    GroupBox5: TGroupBox;
+    Chart1: TChart;
+    F_FSRHeelLS: TLineSeries;
+    Chart2: TChart;
+    F_HeelLS: TLineSeries;
+    F_FilteredToeLS: TChart;
+    F_ToeLS: TLineSeries;
+    Chart4: TChart;
+    F_HipLS: TLineSeries;
+    Chart5: TChart;
+    F_KneeLS: TLineSeries;
+    Chart6: TChart;
+    F_AnkleJAFS: TLineSeries;
+    Chart7: TChart;
+    F_AnkleLS: TLineSeries;
+    Chart8: TChart;
+    GroupBox6: TGroupBox;
+    Chart9: TChart;
+    GroupBox7: TGroupBox;
+    Button9: TButton;
+    FCEdit: TEdit;
+    Label1: TLabel;
+    F_HeelFilteredLS: TLineSeries;
+    F_KneeFilteredLS: TLineSeries;
+    F_HipJALS: TLineSeries;
+    F_ToeFilteredLS: TLineSeries;
+    F_KneeJALS: TLineSeries;
+    F_FSRToeLS: TLineSeries;
+    F_HipFilteredLS: TLineSeries;
+    F_AnkleFilteredLS: TLineSeries;
+    OpenDialog2: TOpenDialog;
+    F_FFTAnkle1LS: TLineSeries;
+    F_FFTToe2LS: TLineSeries;
+    F_FFTHeel2LS: TLineSeries;
+    F_FFTKnee2LS: TLineSeries;
+    F_FFTHip1LS: TLineSeries;
+    F_FFTKnee1LS: TLineSeries;
+    F_FFTToe1LS: TLineSeries;
+    F_FFTHip2LS: TLineSeries;
+    F_FFTHeel1LS: TLineSeries;
+    F_FFTAnkle2LS: TLineSeries;
+    Chart3: TChart;
+    F_FFTFilteredToe: TLineSeries;
+    F_FFTInputToe: TLineSeries;
+    F_FFTInputHeel: TLineSeries;
+    F_FFTFilteredHeel: TLineSeries;
+    Label2: TLabel;
+    Label3: TLabel;
+
+    procedure FormCreate(Sender: TObject);
+    procedure W_LoadDataButtonClick(Sender: TObject);
+    procedure W_ApplyDWTButtonClick(Sender: TObject);
+    procedure W_SegmentButtonClick(Sender: TObject);
+    procedure VScale1Click(Sender: TObject);
+    procedure VScale2Click(Sender: TObject);
+    procedure VScale3Click(Sender: TObject);
+    procedure VScale4Click(Sender: TObject);
+    procedure VScale5Click(Sender: TObject);
+    procedure VScale6Click(Sender: TObject);
+    procedure VScale7Click(Sender: TObject);
+    procedure VScale8Click(Sender: TObject);
+    procedure W_ClearButtonClick(Sender: TObject);
+
+
+    procedure FFTAnkleSignal;
+    procedure FFTHeelSignal;
+    procedure FFTHipSignal;
+    procedure FFTKneeSignal;
+    procedure FFTToeSignal;
+    procedure FFT(t:extended);
+    procedure F_LoadDataClick(Sender: TObject);
+    procedure F_FFTRawSignalClick(Sender: TObject);
+
+
+    procedure ZerolagAnkleSignal;
+    procedure F_ApplyZeroFilteringButtonClick(Sender: TObject);
+    procedure ZerolagHeelSignal;
+    procedure ZerolagHipSignal;
+    procedure ZerolagKneeSignal;
+    procedure ZerolagToeSignal;
+
+    procedure FFTToeFiltered;
+    procedure FFTHeelFiltered;
+    procedure Button9Click(Sender: TObject);
+
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+  d: textfile;
+  ndata, fs2: integer;
+  Time, ML2Lead, V5Lead: array [0..45000] of extended;
+  scale1_val, scale2_val, scale3_val, scale4_val, scale5_val, scale6_val, scale7_val, scale8_val: array[0..22000] of double;
+  QRS_threshold, peakmaks, BPM, interval: array[-22000..22000] of double;
+  temp, HR: double;
+  state1, state2, state3, state4, state5, state6, state7, state8 : Integer;
+
+  a_0, a_1,a_2,a_3,b_0,b_1, b_common: Real;
+Q1w : array[0..1]  of real = (
+      -2,   2);
+Q2w : array[0..5]  of real = (
+      -1,   -3,   -2,   2,    3,    1);
+Q3w : array[0..13] of real = (
+      -1,   -3,   -6,   -10,  -11,  -9,   -4,   4,    9,    11,   10,   6,
+      3,    1);
+Q4w : array[0..29] of real = (
+      -1,   -3,   -6,   -10,  -15,  -21,  -28,  -36,  -41,  -43,  -42,  -38,
+      -31,  -21,  -8,   8,    21,   31,   38,   42,   43,   41,   36,   28,
+      21,   15,   10,   6,    3,    1);
+Q5w : array[0..61] of real = (
+      -1,   -3,   -6,   -10,  -15,  -21,  -28,  -36,  -45,  -55,  -66,  -78,
+      -91, -105, -120, -136, -149, -159, -166, -170, -171, -169, -164, -156,
+     -145, -131, -114, -94,  -71,  -45,  -16,  16,   45,   71,   94,   114,
+      131,  145,  156,  164,  169,  171,  170,  166,  159,  149,  136,  120,
+      105,  91,   78,   66,   55,   45,   36,   28,   21,   15,   10,   6,
+      3,    1);
+Q6w : array[0..125] of real=(
+      -1,   -3,   -6,   -10,  -15,  -21,  -28,  -36,  -45,  -55,  -66,  -78,
+      -91, -105, -120, -136, -153, -171, -190, -210, -231, -253, -276, -300,
+     -325, -351, -378, -406, -435, -465, -496, -528, -557, -583, -606, -626,
+     -643, -657, -668, -676, -681, -683, -682, -678, -671, -661, -648, -632,
+     -613, -591, -566, -538, -507, -473, -436, -396, -353, -307, -258, -206,
+     -151, -93,  -32,  32,   93,   151,  206,  258,  307,  353,  396,  436,
+      473,  507,  538,  566,  591,  613,  632,  648,  661,  671,  678,  682,
+      683,  681,  676,  668,  657,  643,  626,  606,  583,  557,  528,  496,
+      465,  435,  406,  378,  351,  325,  300,  276,  253,  231,  210,  190,
+      171,  153,  136,  120,  105,  91,   78,   66,   55,   45,   36,   28,
+      21,   15,   10,   6,    3,    1);
+ Q7w : array[0..253] of real=(
+      -1,   -3,   -6,   -10,  -15,  -21,  -28,  -36,  -45,  -55,  -66,  -78,
+      -91, -105, -120, -136, -153, -171, -190, -210, -231, -253, -276, -300,
+     -325, -351, -378, -406, -435, -465, -496, -528, -561, -595, -630, -666,
+     -703, -741, -780, -820, -861, -903, -946, -990, -1035, -1081, -1128, -1176,
+    -1225, -1275, -1326, -1378, -1431, -1485, -1540, -1596, -1653, -1711, -1770, -1830,
+    -1891, -1953, -2016, -2080, -2141, -2199, -2254, -2306, -2355, -2401, -2444, -2484,
+    -2521, -2555, -2586, -2614, -2639, -2661, -2680, -2696, -2709, -2719, -2726, -2730,
+    -2731, -2729, -2724, -2716, -2705, -2691, -2674, -2654, -2631, -2605, -2576, -2544,
+    -2509, -2471, -2430, -2386, -2339, -2289, -2236, -2180, -2121, -2059, -1994, -1926,
+    -1855, -1781, -1704, -1624, -1541, -1455, -1366, -1274, -1179, -1081, -980,  -876,
+     -769,  -659,  -546,  -430,  -311,  -189,  -64,   64,   189,  311,  430,  546,
+      659,   769,   876,   980,   1081,  1179,  1274,  1366,  1455,  1541,  1624,  1704,
+      1781,  1855,  1926,  1994,  2059,  2121,  2180,  2236,  2289,  2339,  2386,  2430,
+      2471,  2509,  2544,  2576,  2605,  2631,  2654,  2674,  2691,  2705,  2716,  2724,
+      2729,  2731,  2730,  2726,  2719,  2709,  2696,  2680,  2661,  2639,  2614,  2586,
+      2555,  2521,  2484,  2444,  2401,  2355,  2306,  2254,  2199,  2141,  2080,  2016,
+      1953,  1891,  1830,  1770,  1711,  1653,  1596,  1540,  1485,  1431,  1378,  1326,
+      1275,  1225,  1176,  1128,  1081,  1035,  990,   946,   903,   861,   820,   780,
+      741,   703,   666,   630,   595,   561,   528,   496,   465,   435,   406,   378,
+      351,   325,   300,   276,   253,   231,   210,   190,   171,   153,   136,   120,
+      105,   91,    78,    66,    55,    45,    36,    28,    21,    15,    10,    6,
+      3,     1);
+ Q8w : array[0..509] of real=(
+      -1,    -3,    -6,    -10,   -15,   -21,   -28,   -36,   -45,   -55,   -66,   -78,
+      -91,   -105,  -120,  -136,  -153,  -171,  -190,  -210,  -231,  -253,  -276,  -300,
+      -325,  -351,  -378,  -406,  -435,  -465,  -496,  -528,  -561,  -595,  -630,  -666,
+      -703,  -741,  -780,  -820,  -861,  -903,  -946,  -990,  -1035, -1081, -1128, -1176,
+      -1225, -1275, -1326, -1378, -1431, -1485, -1540, -1596, -1653, -1711, -1770, -1830,
+      -1891, -1953, -2016, -2080, -2145, -2211, -2278, -2346, -2415, -2485, -2556, -2628,
+      -2701, -2775, -2850, -2926, -3003, -3081, -3160, -3240, -3321, -3403, -3486, -3570,
+      -3655, -3741, -3828, -3916, -4005, -4095, -4186, -4278, -4371, -4465, -4560, -4656,
+      -4753, -4851, -4950, -5050, -5151, -5253, -5356, -5460, -5565, -5671, -5778, -5886,
+      -5995, -6105, -6216, -6328, -6441, -6555, -6670, -6786, -6903, -7021, -7140, -7260,
+      -7381, -7503, -7626, -7750, -7875, -8001, -8128, -8256, -8381, -8503, -8622, -8738,
+      -8851, -8961, -9068, -9172, -9273, -9371, -9466, -9558, -9647, -9733, -9816, -9896,
+      -9973, -10047, -10118, -10186, -10251, -10313, -10372, -10428, -10481, -10531, -10578, -10622,
+      -10663, -10701, -10736, -10768, -10797, -10823, -10846, -10866, -10883, -10897, -10908, -10916,
+      -10921, -10923, -10922, -10918, -10911, -10901, -10888, -10872, -10853, -10831, -10806, -10778,
+      -10747, -10713, -10676, -10636, -10593, -10547, -10498, -10446, -10391, -10333, -10272, -10208,
+      -10141, -10071, -9998,  -9922,  -9843,  -9761,  -9676,  -9588,  -9497,  -9403,  -9306,  -9206,
+      -9103,  -8997,  -8888,  -8776,  -8661,  -8543,  -8422,  -8298,  -8171,  -8041,  -7908,  -7772,
+      -7633,  -7491,  -7346,  -7198,  -7047,  -6893,  -6736,  -6576,  -6413,  -6247,  -6078,  -5906,
+      -5731,  -5553,  -5372,  -5188,  -5001,  -4811,  -4618,  -4422,  -4223,  -4021,  -3816,  -3608,
+      -3397,  -3183,  -2966,  -2746,  -2523,  -2297,  -2068,  -1836,  -1601,  -1363,  -1122,  -878,
+      -631,  -381,  -128,   128,   381,   631,   878,   1122,  1363,  1601,  1836,  2068,
+      2297,  2523,  2746,  2966,  3183,  3397,  3608,  3816,  4021,  4223,  4422,  4618,
+      4811,  5001,  5188,  5372,  5553,  5731,  5906,  6078,  6247,  6413,  6576,  6736,
+      6893,  7047,  7198,  7346,  7491,  7633,  7772,  7908,  8041,  8171,  8298,  8422,
+      8543,  8661,  8776,  8888,  8997,  9103,  9206,  9306,  9403,  9497,  9588,  9676,
+      9761,  9843,  9922,  9998,  10071, 10141, 10208, 10272, 10333, 10391, 10446, 10498,
+      10547, 10593, 10636, 10676, 10713, 10747, 10778, 10806, 10831, 10853, 10872, 10888,
+      10901, 10911, 10918, 10922, 10923, 10921, 10916, 10908, 10897, 10883, 10866, 10846,
+      10823, 10797, 10768, 10736, 10701, 10663, 10622, 10578, 10531, 10481, 10428, 10372,
+      10313, 10251, 10186, 10118, 10047, 9973,  9896,  9816,  9733,  9647,  9558,  9466,
+      9371,  9273,  9172,  9068,  8961,  8851,  8738,  8622,  8503,  8381,  8256,  8128,
+      8001,  7875,  7750,  7626,  7503,  7381,  7260,  7140,  7021,  6903,  6786,  6670,
+      6555,  6441,  6328,  6216,  6105,  5995,  5886,  5778,  5671,  5565,  5460,  5356,
+      5253,  5151,  5050,  4950,  4851,  4753,  4656,  4560,  4465,  4371,  4278,  4186,
+      4095,  4005,  3916,  3828,  3741,  3655,  3570,  3486,  3403,  3321,  3240,  3160,
+      3081,  3003,  2926,  2850,  2775,  2701,  2628,  2556,  2485,  2415,  2346,  2278,
+      2211,  2145,  2080,  2016,  1953,  1891,  1830,  1770,  1711,  1653,  1596,  1540,
+      1485,  1431,  1378,  1326,  1275,  1225,  1176,  1128,  1081,  1035,  990,   946,
+      903,   861,   820,   780,   741,   703,   666,   630,   595,   561,   528,   496,
+      465,   435,   406,   378,   351,   325,   300,   276,   253,   231,   210,   190,
+      171,   153,   136,   120,   105,   91,    78,    66,    55,    45,    36,    28,
+      21,    15,    10,    6,     3,     1);
+
+   q1: array [0..1] of real;
+   q2: array [0..5] of real;
+   q3: array [0..13] of real;
+   q4: array [0..29] of real;
+   q5: array [0..61] of real;
+   q6: array [0..125] of real;
+   q7: array [0..253] of real;
+   q8: array [0..509] of real;
+
+   // GAIT FILTER DESIGN
+
+  F_Time, AnkleInput_y,HeelInput_y,HipInput_y,KneeInput_y,ToeInput_y: array [-10000..10000] of extended;
+  sample, F_ndata, fs, N, FFT_Range, FFT_Index,k1, k2, k3, k4, fc, f: integer;
+  DataLen, Filtered_Mag, xi, xr, GaitData, GaitIndex: array [-100000..100000] of extended;
+  lim1,lim2,lim3,l,r,m,k,i,j:integer;
+  F_d, x1, x2, b1, b2, c1, c2, arg, sin1, cos1: extended;
+  T, wlpf : real;
+  AnkleFilter_y, HeelFilter_y, HipFilter_y, KneeFilter_y, ToeFilter_y :  array [-10000..10000] of Double;
+  windowSize : integer;
+
+implementation
+
+{$R *.dfm}
+
+
+//procedure TForm1.
+
+// buttons for showing values of all the bank filters in comparison with the ecg data
+
+
+//     ----------------------- ECG WAVE DETECTION CODE -------------------------
+procedure TForm1.VScale1Click(Sender: TObject);
+
+begin
+  Inc(state1);
+  if state1 mod 2 = 0 then
+  begin
+    Series1.Active := True;
+  end;
+
+  if state1 mod 2 = 1 then
+  begin
+    Series1.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale2Click(Sender: TObject);
+begin
+  Inc(state2);
+  if state2 mod 2 = 1 then
+  begin
+    Series2.Active := True;
+  end;
+
+  if state2 mod 2 = 0 then
+  begin
+    Series2.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale3Click(Sender: TObject);
+begin
+  Inc(state3);
+  if state3 mod 2 = 1 then
+  begin
+    Series3.Active := True;
+  end;
+
+  if state3 mod 2 = 0 then
+  begin
+    Series3.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale4Click(Sender: TObject);
+begin
+  Inc(state4);
+  if state4 mod 2 = 1 then
+  begin
+    Series4.Active := True;
+  end;
+
+  if state4 mod 2 = 0 then
+  begin
+    Series4.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale5Click(Sender: TObject);
+begin
+  Inc(state5);
+  if state5 mod 2 = 1 then
+  begin
+    Series5.Active := True;
+  end;
+
+  if state5 mod 2 = 0 then
+  begin
+    Series5.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale6Click(Sender: TObject);
+begin
+  Inc(state6);
+  if state6 mod 2 = 1 then
+  begin
+    Series6.Active := True;
+  end;
+
+  if state6 mod 2 = 0 then
+  begin
+    Series6.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale7Click(Sender: TObject);
+begin
+  Inc(state7);
+  if state7 mod 2 = 1 then
+  begin
+    Series7.Active := True;
+  end;
+
+  if state7 mod 2 = 0 then
+  begin
+    Series7.Active := False;
+  end;
+end;
+
+procedure TForm1.VScale8Click(Sender: TObject);
+begin
+  Inc(state8);
+  if state8 mod 2 = 1 then
+  begin
+    Series8.Active := True;
+  end;
+
+  if state8 mod 2 = 0 then
+  begin
+    Series8.Active := False;
+  end;
+end;
+
+procedure TForm1.W_ClearButtonClick(Sender: TObject);
+begin
+  InputLS.Clear;
+  Scale1LS.Clear;
+  Scale2LS.Clear;
+  Scale3LS.Clear;
+  Scale4LS.Clear;
+  Scale5LS.Clear;
+  Scale6LS.Clear;
+  Scale7LS.Clear;
+  Scale8LS.Clear;
+  OutLS.Clear;
+  PPS.Clear;
+  QPS.Clear;
+  RPS.Clear;
+  SPS.Clear;
+  TPS.Clear;
+  Series1.Clear;
+  Series2.Clear;
+  Series3.Clear;
+  Series4.Clear;
+  Series5.Clear;
+  Series6.Clear;
+  Series7.Clear;
+  Series8.Clear;
+
+  HeartRateValue.Caption  := '-';
+  QRSdValue.Caption       := '-';
+  PTIntervalValue.Caption   := '-';
+  QTIntervalValue.Caption   := '-';
+  STIntervalValue.Caption   := '-';
+
+  HR     := 0.0;
+  //j      := 0;
+  state1 := 0;
+  state2 := 0;
+  state3 := 0;
+  state4 := 0;
+  state5 := 0;
+  state6 := 0;
+  state7 := 0;
+  state8 := 0;
+
+  Chart1S.Refresh;
+  Chart2S.Refresh;
+  Chart3S.Refresh;
+  Chart4S.Refresh;
+  Chart5S.Refresh;
+  Chart6S.Refresh;
+  Chart7S.Refresh;
+  Chart8S.Refresh;
+  ChartSI.Refresh;
+  ChartSO.Refresh;
+end;
+                                //
+procedure TForm1.FormCreate(Sender: TObject);
+var
+i: integer;
+wlpf, Tempo: Double;
+
+begin
+
+// finishing the equations based on the difference equation, since all values are multiplied by j / (4 * scale size ^ 2)
+  for i := 0 to 1 do
+  begin
+    q1[i]:= 2*Q1w[i];
+  end;
+
+  for i := 0 to 5 do
+  begin
+    q2[i]:= Q2w[i]/4;
+  end;
+
+  for i := 0 to 13 do
+  begin
+    q3[i]:= Q3w[i]/32;
+  end;
+
+  for i := 0 to 29 do
+  begin
+    q4[i]:= Q4w[i]/256;
+  end;
+
+  for i := 0 to 61 do
+  begin
+    q5[i]:= Q5w[i]/2048;
+  end;
+
+  for i := 0 to 125 do
+  begin
+    q6[i]:= Q6w[i]/16384;
+  end;
+
+  for i := 0 to 253 do
+  begin
+    q7[i]:= Q7w[i]/131072;
+  end;
+
+  for i := 0 to 509 do
+  begin
+    q8[i]:= Q8w[i]/1048576;
+  end;
+  state1:= 0;
+  state2:= 0;
+  state3:= 0;
+  state4:= 0;
+  state5:= 0;
+  state6:= 0;
+  state7:= 0;
+  state8:= 0;
+
+
+  fc:= strtoint(FCEdit.Text);
+
+  wlpf := 2 * PI * fc;
+  Tempo := 1/1000;
+  a_0 := (8/power(Tempo, 3)) + (8*wlpf/power(Tempo, 2)) + (4*power(wlpf, 2)/Tempo) + power(wlpf, 3);
+  a_1 := (24/power(Tempo, 3)) + (8*wlpf/power(Tempo, 2)) - (4*power(wlpf, 2)/Tempo) - (3*power(wlpf, 3));
+  a_2 := -( (24/power(Tempo, 3)) - (8*wlpf/power(Tempo, 2)) - (4*power(wlpf, 2)/Tempo) + (3*power(wlpf, 3)) );
+  a_3 := (8/power(Tempo, 3)) - (8*wlpf/power(Tempo, 2)) + (4*power(wlpf, 2)/Tempo) - power(wlpf, 3);
+  b_common := power(wlpf, 3);
+end;
+
+procedure TForm1.F_ApplyZeroFilteringButtonClick(Sender: TObject);
+begin
+  fc:= strtoint(FCEdit.Text);
+  ZeroLagAnkleSignal;
+  ZeroLagToeSignal;
+  ZeroLagHipSignal;
+  ZeroLagHeelSignal;
+  ZeroLagKneeSignal;
+
+
+end;
+
+procedure TForm1.F_FFTRawSignalClick(Sender: TObject);
+begin
+  FFTAnkleSignal;
+  FFTHeelSignal;
+  FFTHipSignal;
+  FFTKneeSignal;
+  FFTToeSignal;
+end;
+
+procedure TForm1.F_LoadDataClick(Sender: TObject);
+var
+  i: integer;
+  filename: TextFile;
+begin
+  if Opendialog2.execute then
+  begin
+    i:=0;                                      //open file
+    assignfile(filename,Opendialog2.Filename);
+    reset(filename);
+    while not eof(filename) do
+    begin
+      readln(filename,F_Time[i], HeelInput_y[i], ToeInput_y[i], HipInput_y[i], KneeInput_y[i], AnkleInput_y[i]);
+      i:=i+1;
+      sample:= i;     //the total data
+    end;
+    closefile(filename);
+  end;
+
+  for i := 0 to sample-1 do
+  begin
+    F_FSRHeelLS.AddXY(F_Time[i],HeelInput_y[i]);   //plot data
+    F_FSRToeLS.AddXY(F_Time[i],ToeInput_y[i]);
+    F_HipJALS.AddXY(F_Time[i],HipInput_y[i]);
+    F_KneeJALS.AddXY(F_Time[i],KneeInput_y[i]);
+    F_AnkleJAFS.AddXY(F_Time[i],AnkleInput_y[i]);
+    F_HeelLS.AddXY(F_Time[i],HeelInput_y[i]);
+    F_ToeLS.AddXY(F_Time[i],ToeInput_y[i]);
+    F_HipLS.AddXY(F_Time[i],HipInput_y[i]);
+    F_KneeLS.AddXY(F_Time[i],KneeInput_y[i]);
+    F_AnkleLS.AddXY(F_Time[i],AnkleInput_y[i]);
+  end;
+
+end;
+
+procedure TForm1.W_ApplyDWTButtonClick(Sender: TObject);
+var
+i, k: integer;
+begin
+  Scale1LS.Clear;
+  Scale2LS.Clear;
+  Scale3LS.Clear;
+  Scale4LS.Clear;
+  Scale5LS.Clear;
+  Scale6LS.Clear;
+  Scale7LS.Clear;
+  Scale8LS.Clear;
+// filtering, by multiplication of the coefficients q1
+ for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 1 do
+    begin
+     if (i-k >= 0) then
+      scale1_val[i] := scale1_val[i] + ML2Lead[i-k] * q1[k];
+    end;
+    Scale1LS.AddXY(Time[i], scale1_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 5 do
+    begin
+    if (i-k >= 0) then
+      scale2_val[i]:=scale2_val[i]+ ML2Lead[i-k]*q2[k];
+    end;
+    Scale2LS.AddXY(Time[i], scale2_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 13 do
+    begin
+    if (i-k >= 0) then
+      scale3_val[i]:=scale3_val[i]+ ML2Lead[i-k]*q3[k];
+    end;
+    Scale3LS.AddXY(Time[i], scale3_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 29 do
+    begin
+    if (i-k >= 0) then
+      scale4_val[i]:=scale4_val[i]+ ML2Lead[i-k]*q4[k];
+    end;
+    Scale4LS.AddXY(Time[i], scale4_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 61 do
+    begin
+    if (i-k >= 0) then
+      scale5_val[i]:=scale5_val[i]+ ML2Lead[i-k]*q5[k];
+    end;
+    Scale5LS.AddXY(Time[i], scale5_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 125 do
+    begin
+    if (i-k >= 0) then
+      scale6_val[i]:=scale6_val[i]+ ML2Lead[i-k]*q6[k];
+    end;
+    Scale6LS.AddXY(Time[i], scale6_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 253 do
+    begin
+    if (i-k >= 0) then
+      scale7_val[i]:=scale7_val[i]+ ML2Lead[i-k]*q7[k];
+    end;
+    Scale7LS.AddXY(Time[i], scale7_val[i]);
+  end;
+
+  for i := 0 to ndata-1 do
+  begin
+    for k := 0 to 509 do
+    begin
+    if (i-k >= 0) then
+      scale8_val[i]:=scale8_val[i]+ ML2Lead[i-k]*q8[k];
+    end;
+    Scale8LS.AddXY(Time[i], scale8_val[i]);
+
+
+  end;
+  for i := 0 to 2520 do
+  begin
+      Series1.AddXY(i/360,scale1_val[i]);
+      Series2.AddXY(i/360,scale2_val[i]);
+      Series3.AddXY(i/360,scale3_val[i]);
+      Series4.AddXY(i/360,scale4_val[i]);
+      Series5.AddXY(i/360,scale5_val[i]);
+      Series6.AddXY(i/360,scale6_val[i]);
+      Series7.AddXY(i/360,scale7_val[i]);
+      Series8.AddXY(i/360,scale8_val[i]);
+  end;
+end;
+
+procedure TForm1.W_LoadDataButtonClick(Sender: TObject);
+var
+  i: Integer;
+begin
+  InputLS.Clear;
+  if OpenDialog1.Execute then
+  begin
+    AssignFile(d, OpenDialog1.Filename);
+    Reset(d);
+    i := 0;
+    Readln(d);
+    Readln(d);
+
+  while not Eof(d) do
+    begin
+      Readln(d, Time[i], ML2Lead[i], V5Lead[i]);
+      if Time[i] > 7 then
+        Break;
+      Inc(i);
+    end;
+  CloseFile(d);
+  ndata := i;
+
+  for i := 0 to ndata - 1 do
+    begin
+      InputLS.AddXY(Time[i], ML2Lead[i]);
+    end;
+  end;
+
+end;
+
+procedure TForm1.W_SegmentButtonClick(Sender: TObject);
+var
+  k, j, n: Integer;
+  threshold, t, temp: Real;
+  i: Integer;
+  intervalPR, intervalQT, IntervalQRS, IntervalST: Real;
+
+  // start values p0 q0 etc etc
+  P0, Q0, R0, S0, T0 : Integer;
+  P_end, Q_end, R_end, S_end, T_end: Integer;
+  minT, maxR, minQ, maxP_TEMP, maxP: Real;
+
+  P_peak_position, Q_peak_position, R_peak_position, S_peak_position, T_peak_position: array of Integer;
+begin
+  t := 1 / 360;
+  j := 0;
+  threshold := 0.5;
+
+  PPS.Clear;
+  QPS.Clear;
+  RPS.Clear;
+  SPS.Clear;
+  TPS.Clear;
+
+  for k := 0 to ndata - 1 do
+  begin
+    if scale1_val[k] > threshold then
+      QRS_threshold[k] := 1
+    else
+      QRS_threshold[k] := 0;
+  end;
+
+  for k := 1 to ndata - 1 do
+  begin
+    if (QRS_threshold[k] = 1) and (QRS_threshold[k - 1] = 0) then
+    begin
+      peakmaks[j] := k;
+      Inc(j);
+    end;
+  end;
+
+  SetLength(P_peak_position, j);
+  SetLength(Q_peak_position, j);
+  SetLength(R_peak_position, j);
+  SetLength(S_peak_position, j);
+  SetLength(T_peak_position, j);
+
+  temp := 0;
+
+  // HR calculation based on the max peaks
+  for k := 1 to j do
+  begin
+    interval[k] := Abs(peakmaks[k] - peakmaks[k - 1]) * t;
+    BPM[k] := 60 / interval[k];
+    temp := temp + BPM[k];
+  end;
+  HR := temp / (j - 1);
+  HeartRateValue.Caption := Format('%.3f BPM', [HR]);
+
+
+  // R wave peak calculations based on the max peaks & from the 5th scale
+  for i := 0 to j - 2 do
+  begin
+    R0 := Max(0, Round(peakmaks[i]) - 27);
+    R_end := Min(ndata - 1, Round(peakmaks[i]) + 150);
+    if R0 < R_end then
+    begin
+      maxR := scale5_val[R0];
+      R_peak_position[i] := R0;
+      for k := R0 + 1 to R_end do
+      begin
+        if scale5_val[k] > maxR then
+        begin
+          maxR := scale5_val[k];
+          R_peak_position[i] := k-40;
+        end;
+      end;
+    end
+    else
+    begin
+       R_peak_position[i] := Round(peakmaks[i]);
+    end;
+
+
+    // Q wave peak calculations based on the minimum peaks from the 2nd scale
+    Q0 := Max(0, R_peak_position[i] - 200);
+    Q_end := Max(Q0, R_peak_position[i]-1);
+    if Q0 < Q_end then
+    begin
+        minQ := scale2_val[Q0];
+        Q_peak_position[i] := Q0;
+        for k := Q0 + 1 to Q_end do
+        begin
+            if scale2_val[k] < minQ then
+            begin
+                minQ := scale2_val[k];
+                Q_peak_position[i] := k-10;
+            end;
+        end;
+    end
+    else
+    begin
+        Q_peak_position[i] := R_peak_position[i] - 10;
+    end;
+
+
+    // S wave peak calculations based on the max peaks from the 1st scale
+    S0 := R_peak_position[i] + 1;
+    if i < j - 1 then
+        S_end := R_peak_position[i] + Round((peakmaks[i+1] - peakmaks[i]) * 0.4)
+    else
+        S_end := R_peak_position[i] + 72;
+    S_end := Min(ndata - 2, S_end);
+
+    S_peak_position[i] := S0;
+    if S0 < S_end then
+    begin
+        for k := S0 to S_end do
+        begin
+            if (scale1_val[k] < scale1_val[k - 1]) and (scale1_val[k] < scale1_val[k + 1]) then
+            begin
+                S_peak_position[i] := k-2;
+                Break;
+            end;
+        end;
+    end;
+
+    // P wave peak calculations based on the SECOND max peaks from the 6th scale
+    P0 := Max(0, Q_peak_position[i] - 47);
+    P_end := Q_peak_position[i];
+    if P0 < P_end -1 then
+    begin
+        if scale6_val[P0] > scale6_val[P0+1] then
+        begin
+            maxP_TEMP := scale6_val[P0];
+            maxP := scale6_val[P0+1];
+            P_peak_position[i] := P0+1;
+        end
+        else
+        begin
+            maxP_TEMP := scale6_val[P0+1];
+            maxP := scale6_val[P0];
+            P_peak_position[i] := P0;
+        end;
+
+        for k := P0 + 2 to P_end do
+        begin
+            if scale6_val[k] > maxP_TEMP then
+            begin
+                maxP := maxP_TEMP;
+                maxP_TEMP := scale6_val[k];
+            end
+            else if (scale6_val[k] > maxP) and (scale6_val[k] < maxP_TEMP) then
+            begin
+                maxP := scale6_val[k];
+                P_peak_position[i] := k
+            end;
+        end;
+    end;
+
+    // T wave peak calculations based on the minmum peak values from the 5th scale
+    T0 := S_peak_position[i] + 45;
+    if i < j - 2 then
+      T_end := Round(peakmaks[i+1])
+    else
+      T_end := Min(ndata - 1, T0 + 250);
+
+    if T0 < T_end then
+    begin
+      minT := scale5_val[T0];
+      T_peak_position[i] := T0;
+      for k := T0 + 1 to T_end do
+      begin
+        if scale5_val[k] < minT then
+        begin
+          minT := scale5_val[k];
+          T_peak_position[i] := k;
+        end;
+      end;
+    end
+    else
+    begin
+      T_peak_position[i] := -1;
+    end;
+
+
+    // plotting the values as point series with respect to ML2 data
+    PPS.AddXY(P_peak_position[i], ML2Lead[P_peak_position[i]]);
+    QPS.AddXY(Q_peak_position[i], ML2Lead[Q_peak_position[i]]);
+    RPS.AddXY(R_peak_position[i], ML2Lead[R_peak_position[i]]);
+    SPS.AddXY(S_peak_position[i], ML2Lead[S_peak_position[i]]);
+    TPS.AddXY(T_peak_position[i], ML2Lead[T_peak_position[i]]);
+
+
+
+  end;
+
+  for i := 0 to 2520 do
+    begin
+      OutLS.AddXY(i, ML2Lead[i]);
+    end;
+
+  if j > 0 then
+  begin
+  // finding the intervals / segment parts
+    intervalQRS := Abs(S_peak_position[0] - Q_peak_position[0]) * t;
+    QRSdValue.Caption := Format('%.3f Seconds', [intervalQRS]);
+
+    intervalPR := Abs(R_peak_position[0] - P_peak_position[0]) * t;
+    PTIntervalValue.Caption := Format('%.3f Seconds', [intervalPR]);
+
+    intervalQT := Abs(T_peak_position[0] - Q_peak_position[0]) * t;
+    QTIntervalValue.Caption := Format('%.3f Seconds', [intervalQT]);
+
+    intervalST := Abs(T_peak_position[0] - S_peak_position[0]) * t;
+    STIntervalValue.Caption := Format('%.3f Seconds', [intervalST]);
+  end;
+end;
+
+
+//     ----------------------- ECG WAVE DETECTION CODE -------------------------
+
+
+//     ----------------------- ZERO-LAG FILTER CODE   --------------------------
+
+procedure TForm1.Button9Click(Sender: TObject);
+begin
+FFTToeFiltered;
+FFTHeelFiltered;
+Label2.Caption := 'Zoom in very closely to the Filtered vs Input ';
+Label3.Caption := 'Heel & Toe graph to view the difference';
+end;
+
+procedure TForm1.FFT(t:extended);
+label first, second, third, fourth;
+begin
+  m:= N;
+  for k:= 1 to FFT_Range do
+  begin
+     xr[k]:=GaitData[k];
+     xi[k]:=GaitIndex[k];
+  end;
+  if t=1.0 then
+    F_d:=1.0
+  else
+    F_d:=FFT_Range;
+
+  lim1:=FFT_Range-1;
+  lim2:= trunc(FFT_Range/2);
+  j:= 1;
+  for i:= 1 to lim1  do
+  begin
+    if i > j-1  then
+    goto second;
+    x1:=xr[j];
+    x2:=xi[j];
+    xr[j]:=xr[i];
+    xi[j]:=xi[i];
+    xr[i]:=x1;
+    xi[i]:=x2;
+
+    second:
+    l:=lim2;
+
+    third:
+    if l > j-1 then goto fourth;
+    j:=j-l;
+    l:=trunc(l/2);
+    goto third;
+
+    fourth:
+    j:=j+l;
+  end;
+
+  for i:= 1 to m do
+  begin
+    lim1:= trunc(exp((i-1)*ln(2)));
+    lim2:= trunc(exp((m-i)*ln(2)));
+    for l:= 1 to lim2 do
+    begin
+      for r:= 1 to lim1 do
+      begin
+        lim3:= (r-1)+(l-1)*2*lim1+1;
+        b1:=xr[lim3];
+        b2:=xi[lim3];
+        c1:=xr[lim3+lim1];
+        c2:=xi[lim3+lim1];
+        arg:=2*pi*(r-1)*lim2/FFT_Range;
+        cos1:=cos(arg);
+        sin1:=sin(arg);
+        x1:=c1*cos1+c2*sin1*t;
+        x2:=-c1*sin1*t+c2*cos1;
+        xr[lim3]:=b1+x1;
+        xi[lim3]:=b2+x2;
+        xr[lim3+lim1]:=b1-x1;
+        xi[lim3+lim1]:=b2-x2;
+      end;
+    end;
+  end;
+
+  for k:= 1 to FFT_Range do
+  begin
+     xr[k]:=xr[k]/F_d;
+     xi[k]:=xi[k]/F_d;
+  end;
+end;
+
+procedure TForm1.FFTAnkleSignal;
+begin
+  F_FFTAnkle1LS.clear;
+  F_FFTAnkle2LS.clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=AnkleInput_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N  ;
+  fft(1);
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1  to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+   Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do
+  begin
+     F_FFTAnkle1LS.addXY(k,Filtered_Mag[k+FFT_Index]);
+     F_FFTAnkle2LS.addXY(k-FFT_Index,Filtered_Mag[k]);
+  end;
+end;
+
+procedure TForm1.FFTHeelSignal;
+begin
+  F_FFTHeel1LS.clear;
+  F_FFTHeel2LS.clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=HeelInput_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N  ;
+  fft(1);
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1  to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+     Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do
+  begin
+     F_FFTHeel1LS.addxy(k,Filtered_Mag[k+FFT_Index]);
+     F_FFTInputHeel.AddXY(k,Filtered_Mag[k+FFT_Index]) ;
+     F_FFTHeel2LS.addxy(k-FFT_Index,Filtered_Mag[k]);
+  end;
+end;
+
+procedure TForm1.FFTHipSignal;
+begin
+  F_FFTHip1LS.clear;
+  F_FFTHip2LS.clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=HipInput_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N;
+  fft(1);
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1  to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+  Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do
+  begin
+     F_FFTHip1LS.addxy(k,Filtered_Mag[k+FFT_Index]);
+     F_FFTHip2LS.addxy(k-FFT_Index,Filtered_Mag[k]);
+  end;
+end;
+
+procedure TForm1.FFTKneeSignal;
+begin
+  F_FFTKnee1LS.clear;
+  F_FFTKnee2LS.clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=KneeInput_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N  ;
+  fft(1); //panggil procedure FFT
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1  to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+     Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do //display output signal
+  begin
+     F_FFTKnee1LS.addxy(k,Filtered_Mag[k+FFT_Index]);
+     F_FFTKnee2LS.addxy(k-FFT_Index,Filtered_Mag[k]);
+  end;
+end;
+
+procedure TForm1.FFTToeSignal;
+begin
+  F_FFTToe1LS.clear;
+  F_FFTToe2LS.clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=ToeInput_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N  ;
+  fft(1); //panggil procedure FFT
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1  to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+     Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do //display output signal
+  begin
+     F_FFTToe1LS.addxy(k,Filtered_Mag[k+FFT_Index]);
+     F_FFTToe2LS.addxy(k-FFT_Index,Filtered_Mag[k]);
+     F_FFTInputToe.AddXY(k,Filtered_Mag[k+FFT_Index]) ;
+  end;
+end;
+
+procedure TForm1.ZerolagAnkleSignal;
+var
+  i : integer;
+  inputTerm  : real;
+
+begin
+  F_AnkleFilteredLS.Clear;
+  for i := (sample - 1) downto 0 do
+  begin
+    inputTerm := b_common * (AnkleInput_y[i] + 3*AnkleInput_y[i+1] + 3*AnkleInput_y[i+2] + AnkleInput_y[i+3]);
+    AnkleFilter_y[i] := (a_1*AnkleFilter_y[i+1] + a_2*AnkleFilter_y[i+2] + a_3*AnkleFilter_y[i+3] + inputTerm) / a_0;
+  end;
+
+  for i := 0 to (sample - 1) do
+  begin
+    F_AnkleFilteredLS.addXY(F_Time[i], AnkleFilter_y[i]);
+  end;
+  //Chart7.Update;
+end;
+
+procedure TForm1.ZeroLagHeelSignal;
+var
+  i : integer;
+  inputTerm : real;
+begin
+  F_HeelFilteredLS.Clear;
+  for i := (sample - 1) downto 0 do
+  begin
+    inputTerm := b_common * (HeelInput_y[i] + 3*HeelInput_y[i+1] + 3*HeelInput_y[i+2] + HeelInput_y[i+3]);
+    HeelFilter_y[i] := (a_1*HeelFilter_y[i+1] + a_2*HeelFilter_y[i+2] + a_3*HeelFilter_y[i+3] + inputTerm) / a_0;
+  end;
+
+  for i := 0 to (sample - 1) do
+  begin
+    F_HeelFilteredLS.addXY(F_Time[i], HeelFilter_y[i]);
+  end;
+end;
+
+procedure TForm1.ZeroLagHipSignal;
+var
+  i : integer;
+  inputTerm : real;
+begin
+  F_HipFilteredLS.Clear;
+  for i := (sample - 1) downto 0 do
+  begin
+    inputTerm := b_common * (HipInput_y[i] + 3*HipInput_y[i+1] + 3*HipInput_y[i+2] + HipInput_y[i+3]);
+    HipFilter_y[i] := (a_1*HipFilter_y[i+1] + a_2*HipFilter_y[i+2] + a_3*HipFilter_y[i+3] + inputTerm) / a_0;
+  end;
+
+  for i := 0 to (sample - 1) do
+  begin
+    F_HipFilteredLS.addXY(F_Time[i], HipFilter_y[i]);
+  end;
+end;
+
+procedure TForm1.ZeroLagKneeSignal;
+var
+  i : integer;
+  inputTerm : real;
+begin
+  F_KneeFilteredLS.Clear;
+  for i := (sample - 1) downto 0 do
+  begin
+    inputTerm := b_common * (KneeInput_y[i] + 3*KneeInput_y[i+1] + 3*KneeInput_y[i+2] + KneeInput_y[i+3]);
+    KneeFilter_y[i] := (a_1*KneeFilter_y[i+1] + a_2*KneeFilter_y[i+2] + a_3*KneeFilter_y[i+3] + inputTerm) / a_0;
+  end;
+
+  for i := 0 to (sample - 1) do
+  begin
+    F_KneeFilteredLS.addXY(F_Time[i], KneeFilter_y[i]);
+  end;
+end;
+
+procedure TForm1.ZeroLagToeSignal;
+var
+  i : integer;
+  inputTerm : real;
+begin
+  F_ToeFilteredLS.Clear;
+  for i := (sample - 1) downto 0 do
+  begin
+    inputTerm := b_common * (ToeInput_y[i] + 3*ToeInput_y[i+1] + 3*ToeInput_y[i+2] + ToeInput_y[i+3]);
+    ToeFilter_y[i] := (a_1*ToeFilter_y[i+1] + a_2*ToeFilter_y[i+2] + a_3*ToeFilter_y[i+3] + inputTerm) / a_0;
+  end;
+
+  for i := 0 to (sample - 1) do
+  begin
+    F_ToeFilteredLS.addXY(F_Time[i], ToeFilter_y[i]);
+  end;
+end;
+
+procedure TForm1.FFTToeFiltered;
+begin
+  F_FFTFilteredToe.Clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=ToeFilter_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N;
+  FFT(1);
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1 to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+  Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do
+  begin
+    F_FFTFilteredToe.addXY(k,Filtered_Mag[k+FFT_Index]);
+  end;
+
+end;
+
+procedure TForm1.FFTHeelFiltered;
+begin
+  F_FFTFilteredHeel.Clear;
+
+  for k:= 1 to 10000 do
+  begin
+    GaitData[k]:=HeelFilter_y[k];
+    GaitIndex[k]:=0.0;
+  end;
+
+  N:=round(ln(10000)/ln(2));
+  FFT_Range:=1 shl N;
+  FFT(1);
+
+  FFT_Index:= FFT_Range div 2;
+
+  for k:= FFT_Index+1 to FFT_Range do
+  begin
+    Filtered_Mag[k-FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+
+  for k:= 1 to FFT_Range div 2 do
+  begin
+    Filtered_Mag[k+FFT_Index]:= sqrt(xr[k]*xr[k]+xi[k]*xi[k])/(FFT_Range div 2);
+  end;
+  Filtered_Mag[FFT_Index+1]:= Filtered_Mag[FFT_Index+1]/2;
+
+  for k:= 1 to FFT_Index do
+  begin
+    F_FFTFilteredHeel.addXY(k,Filtered_Mag[k+FFT_Index]);
+  end;
+
+end;
+
+end.
